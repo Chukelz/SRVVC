@@ -19,9 +19,9 @@ import org.apache.logging.log4j.Logger;
  *
  * You should not need to modify this class
  */
-public class GamePane extends StackPane {
+public class Pane extends StackPane {
 
-    private static final Logger logger = LogManager.getLogger(GamePane.class);
+    private static final Logger logger = LogManager.getLogger(Pane.class);
 
     private final int width;
     private final int height;
@@ -33,7 +33,7 @@ public class GamePane extends StackPane {
      * @param width width
      * @param height height
      */
-    public GamePane(int width, int height) {
+    public Pane(int width, int height) {
         super();
         this.width = width;
         this.height = height;

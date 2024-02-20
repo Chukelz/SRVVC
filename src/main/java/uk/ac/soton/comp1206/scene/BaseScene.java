@@ -2,24 +2,24 @@ package uk.ac.soton.comp1206.scene;
 
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import uk.ac.soton.comp1206.ui.GamePane;
-import uk.ac.soton.comp1206.ui.GameWindow;
+import uk.ac.soton.comp1206.ui.Pane;
+import uk.ac.soton.comp1206.ui.Window;
 
 /**
  * A Base Scene used in the game. Handles common functionality between all scenes.
  */
 public abstract class BaseScene {
 
-    protected final GameWindow gameWindow;
+    protected final Window gameWindow;
 
-    protected GamePane root;
+    protected Pane root;
     protected Scene scene;
 
     /**
      * Create a new scene, passing in the GameWindow the scene will be displayed in
      * @param gameWindow the game window
      */
-    public BaseScene(GameWindow gameWindow) {
+    public BaseScene(Window gameWindow) {
         this.gameWindow = gameWindow;
     }
 

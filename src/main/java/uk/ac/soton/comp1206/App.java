@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import uk.ac.soton.comp1206.ui.GameWindow;
+import uk.ac.soton.comp1206.ui.Window;
 
 /**
  * JavaFX Application class
@@ -56,7 +56,7 @@ public class App extends Application {
         logger.info("Opening Election window");
 
         //Change the width and height in this class to change the base rendering resolution for all game parts
-        var gameWindow = new GameWindow(stage,width,height);
+        var gameWindow = new Window(stage,width,height);
 
         //Display the GameWindow
         stage.show();

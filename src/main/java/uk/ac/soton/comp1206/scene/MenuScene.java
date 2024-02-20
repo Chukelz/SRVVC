@@ -6,8 +6,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import uk.ac.soton.comp1206.ui.GamePane;
-import uk.ac.soton.comp1206.ui.GameWindow;
+import uk.ac.soton.comp1206.ui.Pane;
+import uk.ac.soton.comp1206.ui.Window;
 
 /**
  * The main menu of the game. Provides a gateway to the rest of the game.
@@ -20,7 +20,7 @@ public class MenuScene extends BaseScene {
      * Create a new menu scene
      * @param gameWindow the Game Window this will be displayed in
      */
-    public MenuScene(GameWindow gameWindow) {
+    public MenuScene(Window gameWindow) {
         super(gameWindow);
         logger.info("Creating Menu Scene");
     }
@@ -32,7 +32,7 @@ public class MenuScene extends BaseScene {
     public void build() {
         logger.info("Building " + this.getClass().getName());
 
-        root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
+        root = new Pane(gameWindow.getWidth(),gameWindow.getHeight());
 
         var menuPane = new StackPane();
         menuPane.setMaxWidth(gameWindow.getWidth());

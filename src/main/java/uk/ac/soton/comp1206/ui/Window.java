@@ -19,9 +19,9 @@ import uk.ac.soton.comp1206.scene.*;
  * The GameWindow has methods to launch each of the different parts of the game by switching scenes. You can add more
  * methods here to add more screens to the game.
  */
-public class GameWindow {
+public class Window {
 
-    private static final Logger logger = LogManager.getLogger(GameWindow.class);
+    private static final Logger logger = LogManager.getLogger(Window.class);
 
     private final int width;
     private final int height;
@@ -39,7 +39,7 @@ public class GameWindow {
      * @param width width
      * @param height height
      */
-    public GameWindow(Stage stage, int width, int height) {
+    public Window(Stage stage, int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -89,7 +89,7 @@ public class GameWindow {
      * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.
      */
     public void setupStage() {
-        stage.setTitle("TetrECS");
+        stage.setTitle("SRVVC");
         stage.setMinWidth(width);
         stage.setMinHeight(height + 20);
         stage.setOnCloseRequest(ev -> App.getInstance().shutdown());

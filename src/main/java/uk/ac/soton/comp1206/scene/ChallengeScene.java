@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.component.GameBlock;
 import uk.ac.soton.comp1206.component.GameBoard;
 import uk.ac.soton.comp1206.game.Game;
-import uk.ac.soton.comp1206.ui.GamePane;
-import uk.ac.soton.comp1206.ui.GameWindow;
+import uk.ac.soton.comp1206.ui.Pane;
+import uk.ac.soton.comp1206.ui.Window;
 
 /**
  * The Single Player challenge scene. Holds the UI for the single player challenge mode in the game.
@@ -21,7 +21,7 @@ public class ChallengeScene extends BaseScene {
      * Create a new Single Player challenge scene
      * @param gameWindow the Game Window
      */
-    public ChallengeScene(GameWindow gameWindow) {
+    public ChallengeScene(Window gameWindow) {
         super(gameWindow);
         logger.info("Creating Challenge Scene");
     }
@@ -35,7 +35,7 @@ public class ChallengeScene extends BaseScene {
 
         setupGame();
 
-        root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
+        root = new Pane(gameWindow.getWidth(),gameWindow.getHeight());
 
         var challengePane = new StackPane();
         challengePane.setMaxWidth(gameWindow.getWidth());
