@@ -1,6 +1,8 @@
 package uk.ac.soton.comp1206.scene;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -43,17 +45,34 @@ public class MenuScene extends BaseScene {
         var mainPane = new BorderPane();
         menuPane.getChildren().add(mainPane);
 
+        VBox menuBox = new VBox();
+        menuBox.setAlignment(Pos.BOTTOM_RIGHT);
+        menuBox.setPadding(new Insets(100));
+        menuBox.setSpacing(25);
+        mainPane.setCenter(menuBox);
+        BorderPane.setAlignment(menuBox, Pos.BOTTOM_RIGHT);
+
         //Awful title
-        var title = new Text("TetrECS");
+        var title = new Text("SRVVC");
         title.getStyleClass().add("title");
         mainPane.setTop(title);
 
         //For now, let us just add a button that starts the game. I'm sure you'll do something way better.
-        var button = new Button("Play");
-        mainPane.setCenter(button);
+        var buttona = new Button("View Results");
+        buttona.getStyleClass().add("menu-button");
+
+        var buttonb = new Button("Upload Results");
+        buttonb.getStyleClass().add("menu-button");
+
+        var buttonc = new Button("Admin Actions");
+        buttonc.getStyleClass().add("menu-button");
+
+        menuBox.getChildren().addAll(buttona,buttonb,buttonc);
 
         //Bind the button action to the startGame method in the menu
-        button.setOnAction(this::startGame);
+        buttona.setOnAction(this::startGame);
+        buttonb.setOnAction(this::startGame);
+        buttonc.setOnAction(this::startGame);
     }
 
     /**
