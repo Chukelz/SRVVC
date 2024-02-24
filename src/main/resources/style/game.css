@@ -26,6 +26,12 @@
     -fx-font-size: 15px;
 }
 
+.menu-buttonb{
+    -fx-pref-height: 30px;
+    -fx-pref-width: 150px;
+    -fx-font-size: 15px;
+}
+
 .menuItem {
     -fx-fill: white;
     -fx-font-family: 'Orbitron';
@@ -34,6 +40,13 @@
     -fx-border-color: black;
     -fx-stroke: black;
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.label {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 22px;
+    -fx-font-weight: 700;
+
 }
 
 .menuItem:hover {
