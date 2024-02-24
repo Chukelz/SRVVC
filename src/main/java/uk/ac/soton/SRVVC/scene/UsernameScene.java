@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import uk.ac.soton.SRVVC.DbConnect;
 import uk.ac.soton.SRVVC.ui.Pane;
 import uk.ac.soton.SRVVC.ui.Window;
 
@@ -17,6 +18,8 @@ import java.util.Objects;
 public class UsernameScene extends BaseScene{
 
     private static final Logger logger = LogManager.getLogger(UsernameScene.class);
+
+    public DbConnect db = new DbConnect();
 
     public UsernameScene(Window gameWindow) {
         super(gameWindow);
@@ -68,7 +71,13 @@ public class UsernameScene extends BaseScene{
         box.getChildren().addAll(ulabel,username,submit);
         BorderPane.setAlignment(box, Pos.CENTER);
 
-        submit.setOnAction(x -> verify(username.getText()));
+        submit.setOnAction(x -> {
+            try {
+                verify(username.getText());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
 
@@ -76,11 +85,15 @@ public class UsernameScene extends BaseScene{
 
     }
 
-    private void verify(String u) {
-        if(Objects.equals(u, "cue1u21")){
+    private void verify(String u) throws ClassNotFoundException {
+        if(db.getUsers().contains(u)){
+            logger.info("User accepted " + u);
+            gameWindow.setUser(u);
+            logger.info("username set to " + gameWindow.getUser());
             gameWindow.startLoginp();
         }
         else{
+            logger.info("User rejected " + u);
             gameWindow.showNotification("Invalid Username");
             gameWindow.startLogin();
         }

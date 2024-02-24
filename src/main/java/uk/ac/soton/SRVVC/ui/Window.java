@@ -13,7 +13,6 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.App;
-import uk.ac.soton.SRVVC.network.Communicator;
 import uk.ac.soton.SRVVC.scene.*;
 
 /**
@@ -34,8 +33,9 @@ public class Window {
 
     private BaseScene currentScene;
     private Scene scene;
+    public String user;
 
-    final Communicator communicator;
+
 
     /**
      * Create a new GameWindow attached to the given stage with the specified width and height
@@ -48,6 +48,7 @@ public class Window {
         this.height = height;
 
         this.stage = stage;
+        this.user = user;
 
         //Setup window
         setupStage();
@@ -57,9 +58,6 @@ public class Window {
 
         //Setup default scene
         setupDefaultScene();
-
-        //Setup communicator
-        communicator = new Communicator("ws://ofb-labs.soton.ac.uk:9700");
 
         //Go to menu
         startMenu();
@@ -138,7 +136,6 @@ public class Window {
      */
     public void cleanup() {
         logger.info("Clearing up previous scene");
-        communicator.clearListeners();
     }
 
     /**
@@ -165,12 +162,12 @@ public class Window {
         return this.height;
     }
 
-    /**
-     * Get the communicator
-     * @return communicator
-     */
-    public Communicator getCommunicator() {
-        return communicator;
+    public String getUser() {
+        return this.user;
+    }
+
+    public void setUser(String user){
+        this.user = user;
     }
 
     public void showNotification(String message) {

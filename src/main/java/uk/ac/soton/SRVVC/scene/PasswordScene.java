@@ -3,13 +3,11 @@ package uk.ac.soton.SRVVC.scene;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import uk.ac.soton.SRVVC.DbConnect;
 import uk.ac.soton.SRVVC.ui.Pane;
 import uk.ac.soton.SRVVC.ui.Window;
 
@@ -17,6 +15,8 @@ import java.util.Objects;
 public class PasswordScene extends BaseScene {
 
     private static final Logger logger = LogManager.getLogger(PasswordScene.class);
+
+    public DbConnect db = new DbConnect();
 
     public PasswordScene(Window gameWindow) {
         super(gameWindow);
@@ -57,6 +57,8 @@ public class PasswordScene extends BaseScene {
 
 
         PasswordField username = new PasswordField();
+        TextField pass = new TextField();
+        ToggleButton toggle = new ToggleButton("Show/Hide");
         Label ulabel = new Label("Password:");
         ulabel.getStyleClass().add("label");
 
@@ -65,19 +67,28 @@ public class PasswordScene extends BaseScene {
         box.setPadding(new Insets(25,5,5,50));
         Button submit = new Button("Submit");
         submit.getStyleClass().add("menu-buttonb");
-        box.getChildren().addAll(ulabel,username,submit);
+        box.getChildren().addAll(ulabel,username,pass,toggle,submit);
+
+        username.textProperty().bindBidirectional(pass.textProperty());
+        username.visibleProperty().bind(toggle.selectedProperty().not());
+        pass.visibleProperty().bind(toggle.selectedProperty());
+
         BorderPane.setAlignment(box, Pos.CENTER);
 
-        submit.setOnAction(x -> verify(username.getText()));
-
-
+        submit.setOnAction(x -> {
+            try {
+                verify(username.getText());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         mainPane.setCenter(box);
 
     }
 
-    private void verify(String u) {
-        if(Objects.equals(u, "cue1u21")){
+    private void verify(String u) throws ClassNotFoundException {
+        if(Objects.equals(db.getPass(gameWindow.getUser()), u)){
             gameWindow.startMenu();
         }
         else{
