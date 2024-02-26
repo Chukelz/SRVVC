@@ -206,4 +206,8 @@ public class Window {
         });
         ft.play();
     }
+
+    public void startInputVotes() {
+        loadScene(new InputVotesa(this));
+    }
 }

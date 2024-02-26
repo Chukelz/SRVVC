@@ -49,6 +49,13 @@
 
 }
 
+.labelb {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+
+}
+
 .menuItem:hover {
     -fx-fill: yellow;
 }

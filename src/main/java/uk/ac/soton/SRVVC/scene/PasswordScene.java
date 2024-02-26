@@ -57,6 +57,7 @@ public class PasswordScene extends BaseScene {
 
 
         PasswordField username = new PasswordField();
+        username.setPrefWidth(185);
         TextField pass = new TextField();
         ToggleButton toggle = new ToggleButton("Show/Hide");
         Label ulabel = new Label("Password:");
@@ -89,7 +90,8 @@ public class PasswordScene extends BaseScene {
 
     private void verify(String u) throws ClassNotFoundException {
         if(Objects.equals(db.getPass(gameWindow.getUser()), u)){
-            gameWindow.startMenu();
+            gameWindow.startInputVotes();
+            logger.info("Going to input screen");
         }
         else{
             gameWindow.showNotification("Invalid Password");
