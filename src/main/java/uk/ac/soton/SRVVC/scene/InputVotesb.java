@@ -5,21 +5,39 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.DbConnect;
 import uk.ac.soton.SRVVC.ui.Pane;
 import uk.ac.soton.SRVVC.ui.Window;
+public class InputVotesb extends BaseScene {
 
-import java.util.Objects;
+    private static final Logger logger = LogManager.getLogger(InputVotesb.class);
 
-public class InputVotesa extends BaseScene {
+    public DbConnect db = new DbConnect();
+    private final int apc;
+    private final int pdp;
+    private final int lp;
+    private final int apga;
+    private final int nnpp;
+    private final int ypp;
+    private final int sdp;
+    private final int adc;
 
-    private static final Logger logger = LogManager.getLogger(InputVotesa.class);
-
-    public InputVotesa(Window gameWindow) {
+    public InputVotesb(Window gameWindow,int apc, int pdp, int lp, int apga, int nnpp,int ypp, int sdp ,int adc) {
         super(gameWindow);
-        logger.info("Creating First Input Scene");
+        this.apc = apc;
+        this.pdp = pdp;
+        this.lp = lp;
+        this.apga = apga;
+        this.nnpp = nnpp;
+        this.ypp = ypp;
+        this.sdp = sdp;
+        this.adc = adc;
+
+
+        logger.info("Creating Second Input Scene");
     }
 
     @Override
@@ -40,7 +58,7 @@ public class InputVotesa extends BaseScene {
         top.setPrefHeight(root.getHeight()*1/12);
 
         Button back = new Button("<- Back");
-        back.setOnAction(x -> gameWindow.startMenu());
+        back.setOnAction(x -> gameWindow.startInputVotes());
         back.setAlignment(Pos.CENTER_RIGHT);
 
         HBox leftHbox = new HBox();
@@ -112,17 +130,20 @@ public class InputVotesa extends BaseScene {
         submit.getStyleClass().add("menu-buttonb");
         boxc.getChildren().addAll(submit);
 
+        Text t = new Text("Confirm Votes Please");
+        t.getStyleClass().add("heading");
+
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
         //menuBox.setPadding(new Insets(100));
         menuBox.setSpacing(25);
-        menuBox.getChildren().addAll(box,boxb,boxc);
+        menuBox.getChildren().addAll(t,box,boxb,boxc);
         mainPane.setCenter(menuBox);
         BorderPane.setAlignment(menuBox, Pos.CENTER);
 
         submit.setOnAction(x -> {
             if(isPNumeric(apc.getText()) && isPNumeric(pdp.getText()) && isPNumeric(lp.getText())
-            && isPNumeric(apga.getText()) && isPNumeric(nnpp.getText())&& isPNumeric(ypp.getText()) &&
+                    && isPNumeric(apga.getText()) && isPNumeric(nnpp.getText())&& isPNumeric(ypp.getText()) &&
                     isPNumeric(sdp.getText()) && isPNumeric(adc.getText())){
                 int a = Integer.parseInt(apc.getText());
                 int b = Integer.parseInt(pdp.getText());
@@ -132,12 +153,26 @@ public class InputVotesa extends BaseScene {
                 int f = Integer.parseInt(ypp.getText());
                 int g = Integer.parseInt(sdp.getText());
                 int h = Integer.parseInt(adc.getText());
-                gameWindow.startInputb(a,b,c,d,e,f,g,h);
+                if (this.apc == a && this.pdp == b && this.lp == c && this.apga == d && this.nnpp == e &&  this.ypp == f
+                        && this.sdp == g && this.adc == h){
+                    try {
+                        db.UpdateVotes(gameWindow.getUser(), a,b,c,d,e,f,g,h);
+                        //gameWindow.showNotification("Succesfull Submitted Votes. Thank you");
+                        Alert al = new Alert(Alert.AlertType.CONFIRMATION);
+                        al.setContentText(" You have succesfully submitted the results for your LGA. Head to the live results portal for further confirmation");
+                        al.show();
+                    } catch (ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    gameWindow.startMenu();
+                }
+                else{
+                    gameWindow.showNotification("Votes count do not match try again");
+                    gameWindow.startInputVotes();
+                }
             }
-            else{
-                logger.info("Invalid vote values " + Integer.parseInt(apc.getText()));
-                //gameWindow.showNotification("Invalid Values. Please input Numbers");
-            }
+
+
         });
 
     }

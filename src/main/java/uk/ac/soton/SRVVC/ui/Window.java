@@ -210,4 +210,8 @@ public class Window {
     public void startInputVotes() {
         loadScene(new InputVotesa(this));
     }
+
+    public void startInputb(int apc, int pdp, int lp, int apga, int nnpp,int ypp, int sdp ,int adc) {
+        loadScene(new InputVotesb(this,apc, pdp, lp, apga,nnpp,ypp,sdp ,adc));
+    }
 }

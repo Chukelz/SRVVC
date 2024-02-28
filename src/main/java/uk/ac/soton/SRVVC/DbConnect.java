@@ -126,4 +126,46 @@ public class DbConnect {
 
         return null;
     }
+
+    public void UpdateVotes(String logu, int apc, int pdp, int lp, int apga, int nnpp, int ypp, int sdp, int adc) throws ClassNotFoundException {
+        int sum = apc + pdp + lp + apga +nnpp+ypp+sdp+adc;
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("UPDATE SRVVCDB.Master SET APC = ?,PDP = ?,LP = ?,APGA = ?,NNPP = ?,YPP = ?,SDP = ?,ADC = ?, Total = ? WHERE username = ?");
+                stmt.setString(1, String.valueOf(apc));
+                stmt.setString(2, String.valueOf(pdp));
+                stmt.setString(3, String.valueOf(lp));
+                stmt.setString(4, String.valueOf(apga));
+                stmt.setString(5, String.valueOf(nnpp));
+                stmt.setString(6, String.valueOf(ypp));
+                stmt.setString(7, String.valueOf(sdp));
+                stmt.setString(8, String.valueOf(adc));
+                stmt.setString(9, String.valueOf(sum));
+                stmt.setString(10, logu);
+
+
+                stmt.executeUpdate();
+                logger.info("Updating fields");
+
+            }
+        } catch (SQLException ex) {
+            System.out.println("Couldnt establish connection to server");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
