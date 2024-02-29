@@ -90,6 +90,10 @@ public class Window {
         loadScene(new PasswordScene(this));
     }
 
+    public void startResults() {
+        loadScene(new ResultsScene(this));
+    }
+
     /**
      * Display the single player challenge
      */

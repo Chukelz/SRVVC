@@ -70,9 +70,13 @@ public class MenuScene extends BaseScene {
         menuBox.getChildren().addAll(buttona,buttonb,buttonc);
 
         //Bind the button action to the startGame method in the menu
-        buttona.setOnAction(this::startGame);
+        buttona.setOnAction(this::startResults);
         buttonb.setOnAction(this::login);
         buttonc.setOnAction(this::startGame);
+    }
+
+    private void startResults(ActionEvent actionEvent) {
+        gameWindow.startResults();
     }
 
     /**

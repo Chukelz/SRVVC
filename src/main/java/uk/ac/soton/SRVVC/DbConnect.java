@@ -84,6 +84,48 @@ public class DbConnect {
         return null;
     }
 
+    public ArrayList<String> getPs() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                Statement stmt = conn.createStatement();
+                ResultSet rset = stmt.executeQuery("SELECT polling_station FROM SRVVCDB.Master");
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> userList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        userList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(userList);
+                return userList;
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
     public String getPass(String userName) throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
@@ -124,6 +166,132 @@ public class DbConnect {
             }
         }
 
+        return null;
+    }
+
+    public ArrayList<String> getVotesState(String lga) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT Sum(APC),Sum(PDP),Sum(LP),Sum(APGA),Sum(NNPP),Sum(YPP),Sum(SDP),Sum(ADC) FROM SRVVCDB.Master WHERE lga = ? ");
+                stmt.setString(1,lga);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> votesList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        votesList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(votesList);
+                return votesList;
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Could not retrieve results");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getVotesp(String ps) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT APC,PDP,LP,APGA,NNPP,YPP,SDP,ADC,lga,electoral_officer FROM SRVVCDB.Master WHERE polling_station = ? ");
+                stmt.setString(1,ps);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> votesList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        votesList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(votesList);
+                return votesList;
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Could not retrieve results");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getVotesTotal() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT Sum(APC),Sum(PDP),Sum(LP),Sum(APGA),Sum(NNPP),Sum(YPP),Sum(SDP),Sum(ADC) FROM SRVVCDB.Master");
+                //stmt.setString(1,lga);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> votesList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        votesList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(votesList);
+                return votesList;
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Could not retrieve results");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 
