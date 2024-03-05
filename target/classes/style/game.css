@@ -32,6 +32,18 @@
     -fx-font-size: 15px;
 }
 
+.menu-buttonc{
+    -fx-pref-height: 30px;
+    -fx-pref-width: 80px;
+    -fx-font-size: 20px;
+}
+
+.menu-buttond{
+    -fx-pref-height: 75px;
+    -fx-pref-width: 250px;
+    -fx-font-size: 30px;
+}
+
 .menuItem {
     -fx-fill: white;
     -fx-font-family: 'Orbitron';
@@ -65,7 +77,7 @@
 }
 
 .bigtitle {
-    -fx-fill: yellow;
+    -fx-fill: white;
     -fx-font-family: 'Orbitron';
     -fx-font-size: 64px;
     -fx-font-weight: 900;

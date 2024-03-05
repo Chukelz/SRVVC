@@ -22,6 +22,8 @@ public class ResultsScene extends BaseScene{
 
     public ResultsScene(Window gameWindow) {
         super(gameWindow);
+        //stage.minHeightProperty().bind(this.heightProperty());
+        //stage.minWidthProperty().bind(this.widthProperty());
 
         logger.info("Creating Results Scene");
     }
@@ -40,6 +42,7 @@ public class ResultsScene extends BaseScene{
         userPane.getChildren().add(mainPane);
 
         BorderPane top = new BorderPane();
+        top.getStyleClass().add("menu-buttonc");
         top.setPadding(new Insets(5,5,5,5));
         top.setPrefHeight(root.getHeight()*1/12);
 
@@ -48,7 +51,7 @@ public class ResultsScene extends BaseScene{
         back.setAlignment(Pos.CENTER_RIGHT);
 
         Button total = new Button("Current Total Results");
-        total.setPrefWidth(150);
+        total.setPrefWidth(220);
         //total.setPrefHeight(30);
         total.setAlignment(Pos.CENTER);
         total.setOnAction(x -> {
@@ -60,7 +63,7 @@ public class ResultsScene extends BaseScene{
         });
 
         TextField ps = new TextField("Search Specific Polling Station");
-        ps.setPrefWidth(200);
+        ps.setPrefWidth(300);
         Button submitps = new Button("Search");
         submitps.setOnAction(x -> {
             try {
@@ -96,7 +99,35 @@ public class ResultsScene extends BaseScene{
         top.setAlignment(rightHbox, Pos.CENTER);
         top.setAlignment(centerHbox, Pos.CENTER);
 
+        BorderPane bottom = new BorderPane();
+        bottom.getStyleClass().add("menu-buttonc");
+        bottom.setPadding(new Insets(5,5,5,5));
+        bottom.setPrefHeight(root.getHeight()*2/12);
+
+        int progress = 0;
+
+        try {
+            progress = getprogress();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        ProgressBar pb = new ProgressBar((double) progress /50);
+        pb.setPrefWidth(250);
+        ProgressIndicator pi = new ProgressIndicator((double) progress /50);
+
+        Label res = new Label("Election Status: ");
+
+        HBox bottomHbox = new HBox();
+        bottomHbox.setSpacing(5);
+        bottomHbox.setAlignment(Pos.CENTER);
+        //bottomHbox.setPadding(new Insets(5,5,5,5));
+        bottomHbox.getChildren().addAll(res,pb,pi);
+
+        bottom.setCenter(bottomHbox);
+
         mainPane.setTop(top);
+        mainPane.setBottom(bottom);
 
         Button Alimosho = new Button("Alimosho");
         Alimosho.setOnAction(x -> {
@@ -107,19 +138,217 @@ public class ResultsScene extends BaseScene{
             }
         });
 
+        Button Ajeromi_Ifelodun = new Button("Ajeromi-Ifelodun");
+        Ajeromi_Ifelodun.setOnAction(x -> {
+            try {
+                displayVotes("Ajeromi-Ifelodun");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Mushin = new Button("Mushin");
+        Mushin.setOnAction(x -> {
+            try {
+                displayVotes("Mushin");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Oshodi_Isolo = new Button("Oshodi-Isolo");
+        Oshodi_Isolo.setOnAction(x -> {
+            try {
+                displayVotes("Oshodi-Isolo");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Ojo = new Button("Ojo");
+        Ojo.setOnAction(x -> {
+            try {
+                displayVotes("Ojo");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         HBox box = new HBox();
+        box.getStyleClass().add("menu-buttond");
         box.setAlignment(Pos.CENTER);
+        box.setSpacing(10);
         box.setPadding(new Insets(25,5,5,50));
-        box.getChildren().addAll(Alimosho);
+        box.getChildren().addAll(Alimosho,Ajeromi_Ifelodun,Mushin,Oshodi_Isolo,Ojo);
+
+        Button Ikorodu = new Button("Ikorodu");
+        Ikorodu.setOnAction(x -> {
+            try {
+                displayVotes("Ikorodu");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Surulere = new Button("Surulere");
+        Surulere.setOnAction(x -> {
+            try {
+                displayVotes("Surulere");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Agege = new Button("Agege");
+        Agege.setOnAction(x -> {
+            try {
+                displayVotes("Agege");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Ifako_Ijaiye = new Button("Ifako-Ijaiye");
+        Ifako_Ijaiye.setOnAction(x -> {
+            try {
+                displayVotes("Ifako-Ijaiye");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Somolu = new Button("Somolu");
+        Somolu.setOnAction(x -> {
+            try {
+                displayVotes("Somolu");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        HBox boxb = new HBox();
+        boxb.getStyleClass().add("menu-buttond");
+        boxb.setAlignment(Pos.CENTER);
+        boxb.setSpacing(10);
+        boxb.setPadding(new Insets(25,5,5,50));
+        boxb.getChildren().addAll(Ikorodu,Surulere,Agege,Ifako_Ijaiye,Somolu);
+
+        Button Anuwo_Odofin = new Button("Anuwo-Odofin");
+        Anuwo_Odofin.setOnAction(x -> {
+            try {
+                displayVotes("Anuwo-Odofin");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Lagos_Mainland = new Button("Lagos Mainland");
+        Lagos_Mainland.setOnAction(x -> {
+            try {
+                displayVotes("Lagos Mainland");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Ikeja = new Button("Ikeja");
+        Ikeja.setOnAction(x -> {
+            try {
+                displayVotes("Ikeja");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Eti_Osa = new Button("Eti-Osa");
+        Eti_Osa.setOnAction(x -> {
+            try {
+                displayVotes("Eti-Osa");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Badagary = new Button("Badagary");
+        Badagary.setOnAction(x -> {
+            try {
+                displayVotes("Badagary");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        HBox boxc = new HBox();
+        boxc.getStyleClass().add("menu-buttond");
+        boxc.setAlignment(Pos.CENTER);
+        boxc.setSpacing(10);
+        boxc.setPadding(new Insets(25,5,5,50));
+        boxc.getChildren().addAll(Anuwo_Odofin,Lagos_Mainland,Ikeja,Eti_Osa,Badagary);
+
+        Button Apapa = new Button("Apapa");
+        Apapa.setOnAction(x -> {
+            try {
+                displayVotes("Apapa");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Lagos_Island = new Button("Lagos Island");
+        Lagos_Island.setOnAction(x -> {
+            try {
+                displayVotes("Lagos Island");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Epe = new Button("Epe");
+        Epe.setOnAction(x -> {
+            try {
+                displayVotes("Epe");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Ibeju_Lekki = new Button("Ibeju-Lekki");
+        Ibeju_Lekki.setOnAction(x -> {
+            try {
+                displayVotes("Ibeju-Lekki");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        Button Kosofe = new Button("Kosofe");
+        Kosofe.setOnAction(x -> {
+            try {
+                displayVotes("Kosofe");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        HBox boxd = new HBox();
+        boxd.getStyleClass().add("menu-buttond");
+        boxd.setAlignment(Pos.CENTER);
+        boxd.setSpacing(10);
+        boxd.setPadding(new Insets(25,5,5,50));
+        boxd.getChildren().addAll(Apapa,Lagos_Island,Epe,Ibeju_Lekki,Kosofe);
 
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
         //menuBox.setPadding(new Insets(100));
         menuBox.setSpacing(25);
-        menuBox.getChildren().addAll(box);
+        menuBox.getChildren().addAll(box,boxb,boxc,boxd);
         mainPane.setCenter(menuBox);
         BorderPane.setAlignment(menuBox, Pos.CENTER);
 
+    }
+
+    private int getprogress() throws ClassNotFoundException {
+        return db.getTotalZ();
     }
 
     private void displayVotesp(String ps) throws ClassNotFoundException {

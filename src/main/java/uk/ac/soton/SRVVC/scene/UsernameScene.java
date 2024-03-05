@@ -3,6 +3,7 @@ package uk.ac.soton.SRVVC.scene;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -89,8 +90,21 @@ public class UsernameScene extends BaseScene{
         if(db.getUsers().contains(u)){
             logger.info("User accepted " + u);
             gameWindow.setUser(u);
-            logger.info("username set to " + gameWindow.getUser());
-            gameWindow.startLoginp();
+
+            if(db.getVotespt(u) == null){
+                gameWindow.showNotification("Username Correct");
+                logger.info("username set to " + gameWindow.getUser());
+                gameWindow.startLoginp();
+            }
+
+            else{
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("You have already uploaded votes so you no longer have access to this platform, If you have made a mistake contact admin with evidence.");
+                //a.setTitle("Votes for Polling Station:  " + ps);
+                a.setHeaderText("Oops... Already uploaded votes");
+                a.show();
+            }
+
         }
         else{
             logger.info("User rejected " + u);

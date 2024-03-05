@@ -253,6 +253,90 @@ public class DbConnect {
         return null;
     }
 
+    public String getVotespt(String ps) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT Total FROM SRVVCDB.Master WHERE username = ? ");
+                stmt.setString(1,ps);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> votesList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        votesList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(votesList.get(0));
+                return votesList.get(0);
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Could not retrieve results");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public int getTotalZ() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(Total) from SRVVCDB.Master WHERE Total > 0;");
+                //stmt.setString(1,ps);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> votesList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        votesList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(Integer.parseInt(votesList.get(0)));
+                return Integer.parseInt(votesList.get(0));
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Could not retrieve results");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
     public ArrayList<String> getVotesTotal() throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;

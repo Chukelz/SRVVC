@@ -2,6 +2,7 @@ package uk.ac.soton.SRVVC.ui;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -35,6 +36,10 @@ public class Window {
     private Scene scene;
     public String user;
 
+    private SimpleDoubleProperty stageWidth = new SimpleDoubleProperty();
+
+    private SimpleDoubleProperty stageHeight = new SimpleDoubleProperty();
+
 
 
     /**
@@ -48,7 +53,7 @@ public class Window {
         this.height = height;
 
         this.stage = stage;
-        this.user = user;
+        //this.user = user;
 
         //Setup window
         setupStage();
@@ -94,10 +99,6 @@ public class Window {
         loadScene(new ResultsScene(this));
     }
 
-    /**
-     * Display the single player challenge
-     */
-    public void startChallenge() { loadScene(new ChallengeScene(this)); }
 
     /**
      * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.
@@ -105,8 +106,19 @@ public class Window {
     public void setupStage() {
         stage.setTitle("SRVVC");
         stage.setMinWidth(width);
-        stage.setMinHeight(height + 20);
+        stage.setMinHeight(height);
+        //stage.setFullScreen(true);
         stage.setOnCloseRequest(ev -> App.getInstance().shutdown());
+        //stage.minHeightProperty().bind(this.heightProperty());
+        //stage.minWidthProperty().bind(this.widthProperty());
+    }
+
+    public double getStageHeight(){
+        return stage.getHeight();
+    }
+
+    public double getStageWidth(){
+        return stage.getWidth();
     }
 
     /**
@@ -119,9 +131,13 @@ public class Window {
 
         //Create the new scene and set it up
         newScene.build();
+
+        //uk.ac.soton.SRVVC.ui.Pane root = new uk.ac.soton.SRVVC.ui.Pane(this.getWidth(),this.getHeight());
         currentScene = newScene;
         scene = newScene.setScene();
         stage.setScene(scene);
+        //stage.setFullScreen(true);
+        //newScene.build();
 
         //Initialise the scene when ready
         Platform.runLater(() -> currentScene.initialise());
@@ -133,6 +149,8 @@ public class Window {
     public void setupDefaultScene() {
         this.scene = new Scene(new Pane(),width,height, Color.BLACK);
         stage.setScene(this.scene);
+
+
     }
 
     /**

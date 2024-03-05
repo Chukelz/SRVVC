@@ -16,12 +16,12 @@ public class App extends Application {
     /**
      * Base resolution width
      */
-    private final int width = 800;
+    private final int width = 1400;
 
     /**
      * Base resolution height
      */
-    private final int height = 600;
+    private final int height = 800;
 
     private static App instance;
     private static final Logger logger = LogManager.getLogger(App.class);
@@ -56,6 +56,10 @@ public class App extends Application {
         logger.info("Opening Election window");
 
         //Change the width and height in this class to change the base rendering resolution for all game parts
+        stage.setTitle("SRVVC");
+        stage.setMinWidth(width);
+        stage.setMinHeight(height);
+
         var gameWindow = new Window(stage,width,height);
 
         //Display the GameWindow
