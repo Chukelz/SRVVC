@@ -356,7 +356,7 @@ public class ResultsScene extends BaseScene{
             ArrayList<String> v = db.getVotesp(ps);
             String t = new String("LGA: " + v.get(8) + "\n" + "Officer: " + v.get(9) + "\n" + "APC: " + v.get(0) + "\n" + "PDP: " + v.get(1) + "\n" + "LP: " + v.get(2) + "\n" +
                     "APGA: " + v.get(3) + "\n" + "NNPP: " + v.get(4) + "\n" + "YPP: " + v.get(5) + "\n" + "SDP: " + v.get(6) + "\n" +
-                    "ADC: " + v.get(7) + "\n");
+                    "ADC: " + v.get(7) + "\n" + "Total: " + v.get(10) + "\n");
 
             logger.info(v);
             Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -377,7 +377,7 @@ public class ResultsScene extends BaseScene{
         ArrayList<String> v = db.getVotesState(lga);
         String t = new String("APC: " + v.get(0) + "\n" + "PDP: " + v.get(1) + "\n" + "LP: " + v.get(2) + "\n" +
                 "APGA: " + v.get(3) + "\n" + "NNPP: " + v.get(4) + "\n" + "YPP: " + v.get(5) + "\n" + "SDP: " + v.get(6) + "\n" +
-                "ADC: " + v.get(7) + "\n");
+                "ADC: " + v.get(7) + "\n"  + "Total: " + v.get(8) + "\n");
 
         logger.info(v);
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -392,7 +392,7 @@ public class ResultsScene extends BaseScene{
         ArrayList<String> v = db.getVotesTotal();
         String t = new String("APC: " + v.get(0) + "\n" + "PDP: " + v.get(1) + "\n" + "LP: " + v.get(2) + "\n" +
                 "APGA: " + v.get(3) + "\n" + "NNPP: " + v.get(4) + "\n" + "YPP: " + v.get(5) + "\n" + "SDP: " + v.get(6) + "\n" +
-                "ADC: " + v.get(7) + "\n");
+                "ADC: " + v.get(7) + "\n"  + "Total: " + v.get(8) + "\n");
 
         logger.info(v);
         Alert a = new Alert(Alert.AlertType.INFORMATION);

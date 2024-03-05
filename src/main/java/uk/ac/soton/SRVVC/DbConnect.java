@@ -177,7 +177,7 @@ public class DbConnect {
             if (conn != null) {
                 System.out.println("Connected to the database");
                 logger.info("Connected");
-                PreparedStatement stmt = conn.prepareStatement("SELECT Sum(APC),Sum(PDP),Sum(LP),Sum(APGA),Sum(NNPP),Sum(YPP),Sum(SDP),Sum(ADC) FROM SRVVCDB.Master WHERE lga = ? ");
+                PreparedStatement stmt = conn.prepareStatement("SELECT Sum(APC),Sum(PDP),Sum(LP),Sum(APGA),Sum(NNPP),Sum(YPP),Sum(SDP),Sum(ADC),Sum(Total) FROM SRVVCDB.Master WHERE lga = ? ");
                 stmt.setString(1,lga);
                 ResultSet rset = stmt.executeQuery();
 
@@ -219,7 +219,7 @@ public class DbConnect {
             if (conn != null) {
                 System.out.println("Connected to the database");
                 logger.info("Connected");
-                PreparedStatement stmt = conn.prepareStatement("SELECT APC,PDP,LP,APGA,NNPP,YPP,SDP,ADC,lga,electoral_officer FROM SRVVCDB.Master WHERE polling_station = ? ");
+                PreparedStatement stmt = conn.prepareStatement("SELECT APC,PDP,LP,APGA,NNPP,YPP,SDP,ADC,lga,electoral_officer,Total FROM SRVVCDB.Master WHERE polling_station = ? ");
                 stmt.setString(1,ps);
                 ResultSet rset = stmt.executeQuery();
 
@@ -345,7 +345,7 @@ public class DbConnect {
             if (conn != null) {
                 System.out.println("Connected to the database");
                 logger.info("Connected");
-                PreparedStatement stmt = conn.prepareStatement("SELECT Sum(APC),Sum(PDP),Sum(LP),Sum(APGA),Sum(NNPP),Sum(YPP),Sum(SDP),Sum(ADC) FROM SRVVCDB.Master");
+                PreparedStatement stmt = conn.prepareStatement("SELECT Sum(APC),Sum(PDP),Sum(LP),Sum(APGA),Sum(NNPP),Sum(YPP),Sum(SDP),Sum(ADC),Sum(Total) FROM SRVVCDB.Master");
                 //stmt.setString(1,lga);
                 ResultSet rset = stmt.executeQuery();
 
