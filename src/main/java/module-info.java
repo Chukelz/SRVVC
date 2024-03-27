@@ -7,6 +7,8 @@ module uk.ac.soton.comp1206 {
     requires nv.websocket.client;
     requires java.sql;
     requires mysql.connector.java;
+    requires javax.mail;
+    requires activation;
     opens uk.ac.soton.SRVVC.ui to javafx.fxml;
     exports uk.ac.soton.SRVVC;
     exports uk.ac.soton.SRVVC.ui;

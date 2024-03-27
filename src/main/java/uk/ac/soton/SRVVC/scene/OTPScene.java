@@ -1,35 +1,29 @@
 package uk.ac.soton.SRVVC.scene;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.DbConnect;
-import uk.ac.soton.SRVVC.EmailUtil;
 import uk.ac.soton.SRVVC.ui.Pane;
 import uk.ac.soton.SRVVC.ui.Window;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
 import java.util.Objects;
-import java.util.Properties;
 
-public class PasswordScene extends BaseScene {
-
+public class OTPScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(PasswordScene.class);
 
     public DbConnect db = new DbConnect();
 
-    public PasswordScene(Window gameWindow) {
+    public OTPScene(Window gameWindow) {
         super(gameWindow);
         logger.info("Creating Password Scene");
     }
 
-    @Override
     public void build() {
         root = new Pane(gameWindow.getWidth(),gameWindow.getHeight());
 
@@ -66,7 +60,7 @@ public class PasswordScene extends BaseScene {
         username.setPrefWidth(185);
         TextField pass = new TextField();
         ToggleButton toggle = new ToggleButton("Show/Hide");
-        Label ulabel = new Label("Password:");
+        Label ulabel = new Label("OTP:");
         ulabel.getStyleClass().add("label");
 
         HBox box = new HBox();
@@ -95,44 +89,23 @@ public class PasswordScene extends BaseScene {
     }
 
     private void verify(String u) throws ClassNotFoundException {
-        if(Objects.equals(db.getPass(gameWindow.getUser()), u)){
-            gameWindow.setRand();
-            sendEmail(db.getEmail(gameWindow.getUser()));
-            gameWindow.startOTP();
-            logger.info("Going to OTP screen");
+        int number = 0;
+        try {
+            number = Integer.parseInt(u);
+            System.out.println("The integer value is: " + number);
+        } catch (NumberFormatException e) {
+            gameWindow.showNotification("Enter a number");
+            System.out.println("Error: The string cannot be converted to an integer.");
         }
-        else{
-            gameWindow.showNotification("Invalid Password");
+        if (Objects.equals(gameWindow.getRand(), number)) {
+            gameWindow.startInputVotes();
+            logger.info("Going to input screen");
+        } else {
+            gameWindow.showNotification("Invalid OTP");
             gameWindow.startLogin();
         }
     }
 
     public void initialise() {
-    }
-
-    public void sendEmail(String toEmail){
-        logger.info("SimpleEmail Start" + gameWindow.getRand());
-        final String fromEmail = "noreplysrvvc@gmail.com"; //requires valid gmail id
-        final String password = "ykgjonjpnrsqskll"; // correct password for gmail id
-        //final String toEmail = "myemail@yahoo.com"; // can be any email id
-
-        logger.info("TLSEmail Start");
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-
-        //create Authenticator object to pass in Session.getInstance argument
-        Authenticator auth = new Authenticator() {
-            //override the getPasswordAuthentication method
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, password);
-            }
-        };
-        Session session = Session.getInstance(props, auth);
-
-        //EmailUtil.sendEmail(session, toEmail,"TLSEmail Testing Subject", "TLSEmail Testing Body");
-        EmailUtil.sendEmail(session, toEmail,"Verification code for SRVVC", "Code: " + gameWindow.getRand());
     }
 }

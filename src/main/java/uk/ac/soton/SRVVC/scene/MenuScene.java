@@ -76,7 +76,11 @@ public class MenuScene extends BaseScene {
         //Bind the button action to the startGame method in the menu
         buttona.setOnAction(this::startResults);
         buttonb.setOnAction(this::login);
-        //buttonc.setOnAction(this::start);
+        buttonc.setOnAction(this::adminP);
+    }
+
+    private void adminP(ActionEvent actionEvent) {
+        gameWindow.startAdmin();
     }
 
     private void startResults(ActionEvent actionEvent) {

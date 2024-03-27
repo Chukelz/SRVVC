@@ -169,6 +169,135 @@ public class DbConnect {
         return null;
     }
 
+    public String getEmail(String userName) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT email FROM SRVVCDB.Master WHERE username = ?");
+                stmt.setString(1,userName);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> userList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        userList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(userList);
+                return userList.get(0);
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public String getPolling(String userName) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT polling_station FROM SRVVCDB.Master WHERE username = ?");
+                stmt.setString(1,userName);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> userList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        userList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(userList);
+                return userList.get(0);
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public String getLGA(String userName) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("SELECT lga FROM SRVVCDB.Master WHERE username = ?");
+                stmt.setString(1,userName);
+                ResultSet rset = stmt.executeQuery();
+
+                ResultSetMetaData rsmd = rset.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+
+                ArrayList<String> userList = new ArrayList<>(columnCount);
+                while (rset.next()) {
+                    int i = 1;
+                    while(i <= columnCount) {
+                        userList.add(rset.getString(i++));
+                    }
+                }
+                logger.info(userList);
+                return userList.get(0);
+            }
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
     public ArrayList<String> getVotesState(String lga) throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
@@ -403,6 +532,35 @@ public class DbConnect {
 
                 stmt.executeUpdate();
                 logger.info("Updating fields");
+
+            }
+        } catch (SQLException ex) {
+            System.out.println("Couldnt establish connection to server");
+            logger.info("error");
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    logger.info("Closed?");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void ClearVotes() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dburl,user,password);
+            if (conn != null) {
+                System.out.println("Connected to the database");
+                logger.info("Connected");
+                PreparedStatement stmt = conn.prepareStatement("UPDATE SRVVCDB.Master SET APC = null,PDP = null,LP = null,APGA = null,NNPP = null,YPP = null,SDP = null,ADC = null, Total = null");
+                stmt.executeUpdate();
+                logger.info("Clearing fields");
 
             }
         } catch (SQLException ex) {

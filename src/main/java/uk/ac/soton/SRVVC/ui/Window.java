@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.App;
 import uk.ac.soton.SRVVC.scene.*;
 
+import java.util.Random;
+
 /**
  * The GameWindow is the single window for the game where everything takes place. To move between screens in the game,
  * we simply change the scene.
@@ -35,6 +37,7 @@ public class Window {
     private BaseScene currentScene;
     private Scene scene;
     public String user;
+    public int rand;
 
     private SimpleDoubleProperty stageWidth = new SimpleDoubleProperty();
 
@@ -119,6 +122,20 @@ public class Window {
 
     public double getStageWidth(){
         return stage.getWidth();
+    }
+
+    public int getRand() {
+        return rand;
+    }
+
+    public void setRand() {
+        this.rand = getRandomNumber() ;
+    }
+
+    public static int getRandomNumber() {
+        Random rand = new Random();
+        // Generate a random number between 10000 (inclusive) and 100000 (exclusive)
+        return rand.nextInt(90000) + 10000;
     }
 
     /**
@@ -232,6 +249,15 @@ public class Window {
     public void startInputVotes() {
         loadScene(new InputVotesa(this));
     }
+
+    public void startAdmin() {
+        loadScene(new AdminScene(this));
+    }
+
+    public void startOTP() {
+        loadScene(new OTPScene(this));
+    }
+
 
     public void startInputb(int apc, int pdp, int lp, int apga, int nnpp,int ypp, int sdp ,int adc) {
         loadScene(new InputVotesb(this,apc, pdp, lp, apga,nnpp,ypp,sdp ,adc));

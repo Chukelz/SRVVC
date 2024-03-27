@@ -133,11 +133,22 @@ public class InputVotesb extends BaseScene {
         Text t = new Text("Confirm Votes Please");
         t.getStyleClass().add("heading");
 
+        Text co = null;
+        Text t2 = null;
+        try {
+            co = new Text("Polling Station: " + db.getPolling(gameWindow.getUser()));
+            t2 = new Text("LGA: " + db.getLGA(gameWindow.getUser()));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        co.getStyleClass().add("heading");
+        t2.getStyleClass().add("heading");
+
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
         //menuBox.setPadding(new Insets(100));
         menuBox.setSpacing(25);
-        menuBox.getChildren().addAll(t,box,boxb,boxc);
+        menuBox.getChildren().addAll(t2,co,t,box,boxb,boxc);
         mainPane.setCenter(menuBox);
         BorderPane.setAlignment(menuBox, Pos.CENTER);
 

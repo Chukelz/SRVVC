@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.DbConnect;
@@ -16,6 +17,8 @@ import java.util.Objects;
 public class InputVotesa extends BaseScene {
 
     private static final Logger logger = LogManager.getLogger(InputVotesa.class);
+
+    public DbConnect db = new DbConnect();
 
     public InputVotesa(Window gameWindow) {
         super(gameWindow);
@@ -112,11 +115,22 @@ public class InputVotesa extends BaseScene {
         submit.getStyleClass().add("menu-buttonb");
         boxc.getChildren().addAll(submit);
 
+        Text t = null;
+        Text t2 = null;
+        try {
+            t = new Text("Polling Station: " + db.getPolling(gameWindow.getUser()));
+            t2 = new Text("LGA: " + db.getLGA(gameWindow.getUser()));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        t.getStyleClass().add("heading");
+        t2.getStyleClass().add("heading");
+
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
         //menuBox.setPadding(new Insets(100));
         menuBox.setSpacing(25);
-        menuBox.getChildren().addAll(box,boxb,boxc);
+        menuBox.getChildren().addAll(t2,t,box,boxb,boxc);
         mainPane.setCenter(menuBox);
         BorderPane.setAlignment(menuBox, Pos.CENTER);
 
