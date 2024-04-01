@@ -78,7 +78,7 @@ public class OTPScene extends BaseScene {
 
         submit.setOnAction(x -> {
             try {
-                verify(username.getText());
+                verifyOTP(username.getText());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -88,20 +88,20 @@ public class OTPScene extends BaseScene {
 
     }
 
-    private void verify(String u) throws ClassNotFoundException {
+    private void verifyOTP(String u) throws ClassNotFoundException {
         int number = 0;
         try {
-            number = Integer.parseInt(u);
+            number = Integer.parseInt(u); //convert integer to number
             System.out.println("The integer value is: " + number);
         } catch (NumberFormatException e) {
-            gameWindow.showNotification("Enter a number");
+            gameWindow.showNotification("Enter a number");//tell user to enter a number if he does not
             System.out.println("Error: The string cannot be converted to an integer.");
         }
         if (Objects.equals(gameWindow.getRand(), number)) {
-            gameWindow.startInputVotes();
+            gameWindow.startInputVotes();//if the otp is correct, take the user to input votes screen
             logger.info("Going to input screen");
         } else {
-            gameWindow.showNotification("Invalid OTP");
+            gameWindow.showNotification("Invalid OTP");//tell user if the otp is wrong
             gameWindow.startLogin();
         }
     }

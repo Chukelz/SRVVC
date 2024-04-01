@@ -126,21 +126,23 @@ public class DbConnect {
         return null;
     }
 
-    public String getPass(String userName) throws ClassNotFoundException {
+    // Defines the method 'getPass' that takes a 'userName' as a parameter and returns a String.
+    public String getPasswordGivenUser(String userName) throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
         try {
+            // Establishes a connection to the database using the provided URL, user name, and password.
             conn = DriverManager.getConnection(dburl,user,password);
             if (conn != null) {
-                System.out.println("Connected to the database");
                 logger.info("Connected");
+                // Prepares a SQL statement to select the password of a user where the username matches the parameter.
                 PreparedStatement stmt = conn.prepareStatement("SELECT password FROM SRVVCDB.Master WHERE username = ?");
+                // Sets the provided username in the prepared statement to replace the placeholder (?).
                 stmt.setString(1,userName);
-                ResultSet rset = stmt.executeQuery();
-
+                ResultSet rset = stmt.executeQuery(); // executes the SQL QUERY
                 ResultSetMetaData rsmd = rset.getMetaData();
                 int columnCount = rsmd.getColumnCount();
-
+                // Initializes an ArrayList to hold the values from the ResultSet.
                 ArrayList<String> userList = new ArrayList<>(columnCount);
                 while (rset.next()) {
                     int i = 1;
@@ -148,6 +150,7 @@ public class DbConnect {
                         userList.add(rset.getString(i++));
                     }
                 }
+                //Returns the first value of the list which is the password since theres only one password
                 logger.info(userList);
                 return userList.get(0);
             }
@@ -340,21 +343,22 @@ public class DbConnect {
         return null;
     }
 
-    public ArrayList<String> getVotesp(String ps) throws ClassNotFoundException {
+    public ArrayList<String> getVotesFromPollingStation(String ps) throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
         try {
+            //Establishes a connection to the database using the provided URL, user name, and password.
             conn = DriverManager.getConnection(dburl,user,password);
             if (conn != null) {
                 System.out.println("Connected to the database");
                 logger.info("Connected");
+                // Prepares a SQL statement to select the political party votes where the polling station matches the parameter.
                 PreparedStatement stmt = conn.prepareStatement("SELECT APC,PDP,LP,APGA,NNPP,YPP,SDP,ADC,lga,electoral_officer,Total FROM SRVVCDB.Master WHERE polling_station = ? ");
                 stmt.setString(1,ps);
                 ResultSet rset = stmt.executeQuery();
-
                 ResultSetMetaData rsmd = rset.getMetaData();
                 int columnCount = rsmd.getColumnCount();
-
+                //Initialize array to store the votes
                 ArrayList<String> votesList = new ArrayList<>(columnCount);
                 while (rset.next()) {
                     int i = 1;
@@ -363,6 +367,7 @@ public class DbConnect {
                     }
                 }
                 logger.info(votesList);
+                //return list of votes
                 return votesList;
             }
         } catch (SQLException ex) {
@@ -382,7 +387,7 @@ public class DbConnect {
         return null;
     }
 
-    public String getVotespt(String ps) throws ClassNotFoundException {
+    public String getTotalVotesFromOfficer(String ps) throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
         try {
@@ -507,17 +512,23 @@ public class DbConnect {
         }
         return null;
     }
-
-    public void UpdateVotes(String logu, int apc, int pdp, int lp, int apga, int nnpp, int ypp, int sdp, int adc) throws ClassNotFoundException {
+    // Upload the votes cast by the polling officers to the database
+    public void uploadVotesFromOfficers(String logu, int apc, int pdp, int lp, int apga, int nnpp, int ypp, int sdp, int adc)
+            throws ClassNotFoundException {
+        // calculates sum value to upload to total
         int sum = apc + pdp + lp + apga +nnpp+ypp+sdp+adc;
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
         try {
+            // Establishes a connection to the database using the provided URL, user name, and password.
             conn = DriverManager.getConnection(dburl,user,password);
             if (conn != null) {
                 System.out.println("Connected to the database");
                 logger.info("Connected");
-                PreparedStatement stmt = conn.prepareStatement("UPDATE SRVVCDB.Master SET APC = ?,PDP = ?,LP = ?,APGA = ?,NNPP = ?,YPP = ?,SDP = ?,ADC = ?, Total = ? WHERE username = ?");
+                // Prepares a SQL statement to upload the votes to the database where the username matches the parameter.
+                PreparedStatement stmt = conn.prepareStatement("UPDATE SRVVCDB.Master SET APC = ?,PDP = ?,LP = ?,APGA = ?,NNPP = ?" +
+                        ",YPP = ?,SDP = ?,ADC = ?, Total = ? WHERE username = ?");
+                //Sets the (?) values into the prepared SQL statement
                 stmt.setString(1, String.valueOf(apc));
                 stmt.setString(2, String.valueOf(pdp));
                 stmt.setString(3, String.valueOf(lp));
@@ -528,11 +539,8 @@ public class DbConnect {
                 stmt.setString(8, String.valueOf(adc));
                 stmt.setString(9, String.valueOf(sum));
                 stmt.setString(10, logu);
-
-
-                stmt.executeUpdate();
+                stmt.executeUpdate();//Executes the SQL update query
                 logger.info("Updating fields");
-
             }
         } catch (SQLException ex) {
             System.out.println("Couldnt establish connection to server");

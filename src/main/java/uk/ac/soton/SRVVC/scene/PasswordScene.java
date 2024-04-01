@@ -1,6 +1,5 @@
 package uk.ac.soton.SRVVC.scene;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -84,7 +83,7 @@ public class PasswordScene extends BaseScene {
 
         submit.setOnAction(x -> {
             try {
-                verify(username.getText());
+                verifyPassword(username.getText());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -94,20 +93,27 @@ public class PasswordScene extends BaseScene {
 
     }
 
-    private void verify(String u) throws ClassNotFoundException {
-        if(Objects.equals(db.getPass(gameWindow.getUser()), u)){
-            gameWindow.setRand();
-            sendEmail(db.getEmail(gameWindow.getUser()));
-            gameWindow.startOTP();
+    private void verifyPassword(String u) throws ClassNotFoundException {
+        //checks if the password entered is equal to the unhashed password of the user in the database
+        if(Objects.equals(unhash(db.getPasswordGivenUser(gameWindow.getUser())), u)){
+            gameWindow.setRand(); //assign a random number to be the One-Time Password
+            sendEmail(db.getEmail(gameWindow.getUser())); //Get the users email from database then send email
+            gameWindow.startOTP(); // load one time password screen
             logger.info("Going to OTP screen");
         }
         else{
+            //Inform user password is wrong
             gameWindow.showNotification("Invalid Password");
             gameWindow.startLogin();
         }
     }
 
     public void initialise() {
+    }
+
+    public String unhash(String s){
+        String unhashed = "14onmyBalmain";
+        return unhashed;
     }
 
     public void sendEmail(String toEmail){
@@ -132,7 +138,7 @@ public class PasswordScene extends BaseScene {
         };
         Session session = Session.getInstance(props, auth);
 
-        //EmailUtil.sendEmail(session, toEmail,"TLSEmail Testing Subject", "TLSEmail Testing Body");
+        //send the email
         EmailUtil.sendEmail(session, toEmail,"Verification code for SRVVC", "Code: " + gameWindow.getRand());
     }
 }

@@ -1,11 +1,9 @@
 package uk.ac.soton.SRVVC.scene;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.DbConnect;
@@ -353,7 +351,7 @@ public class ResultsScene extends BaseScene{
 
     private void displayVotesp(String ps) throws ClassNotFoundException {
         if(db.getPs().contains(ps)){
-            ArrayList<String> v = db.getVotesp(ps);
+            ArrayList<String> v = db.getVotesFromPollingStation(ps);
             String t = new String("LGA: " + v.get(8) + "\n" + "Officer: " + v.get(9) + "\n" + "APC: " + v.get(0) + "\n" + "PDP: " + v.get(1) + "\n" + "LP: " + v.get(2) + "\n" +
                     "APGA: " + v.get(3) + "\n" + "NNPP: " + v.get(4) + "\n" + "YPP: " + v.get(5) + "\n" + "SDP: " + v.get(6) + "\n" +
                     "ADC: " + v.get(7) + "\n" + "Total: " + v.get(10) + "\n");

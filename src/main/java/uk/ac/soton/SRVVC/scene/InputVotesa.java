@@ -161,11 +161,13 @@ public class InputVotesa extends BaseScene {
     }
 
     public boolean isPNumeric(String strNum) {
+        //Check if null
         if (strNum == null) {
             logger.info("Null");
             gameWindow.showNotification("Some field are empty. Enter 0 if no votes");
             return false;
         }
+        //Check if not a number
         try {
             int d = Integer.parseInt(strNum);
         } catch (NumberFormatException nfe) {
@@ -173,13 +175,12 @@ public class InputVotesa extends BaseScene {
             gameWindow.showNotification("Invalid Values. Please input Numbers");
             return false;
         }
-
+        //Checks if negative number
         if(Integer.parseInt(strNum) < 0){
             logger.info("Negative Number");
             gameWindow.showNotification("Invalid Values. Please input Positive Numbers");
             return false;
         }
-
         return true;
     }
 }

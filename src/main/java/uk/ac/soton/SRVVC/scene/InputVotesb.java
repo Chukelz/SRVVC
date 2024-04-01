@@ -1,6 +1,5 @@
 package uk.ac.soton.SRVVC.scene;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -153,6 +152,7 @@ public class InputVotesb extends BaseScene {
         BorderPane.setAlignment(menuBox, Pos.CENTER);
 
         submit.setOnAction(x -> {
+            //Validate the values that have been submitted
             if(isPNumeric(apc.getText()) && isPNumeric(pdp.getText()) && isPNumeric(lp.getText())
                     && isPNumeric(apga.getText()) && isPNumeric(nnpp.getText())&& isPNumeric(ypp.getText()) &&
                     isPNumeric(sdp.getText()) && isPNumeric(adc.getText())){
@@ -164,13 +164,15 @@ public class InputVotesb extends BaseScene {
                 int f = Integer.parseInt(ypp.getText());
                 int g = Integer.parseInt(sdp.getText());
                 int h = Integer.parseInt(adc.getText());
+                //Compare to the values submitted in the first submission
                 if (this.apc == a && this.pdp == b && this.lp == c && this.apga == d && this.nnpp == e &&  this.ypp == f
                         && this.sdp == g && this.adc == h){
                     try {
-                        db.UpdateVotes(gameWindow.getUser(), a,b,c,d,e,f,g,h);
-                        //gameWindow.showNotification("Succesfull Submitted Votes. Thank you");
+                        db.uploadVotesFromOfficers(gameWindow.getUser(), a,b,c,d,e,f,g,h);
+                        //User Feedback for submitted votes
                         Alert al = new Alert(Alert.AlertType.CONFIRMATION);
-                        al.setContentText(" You have succesfully submitted the results for your LGA. Head to the live results portal for further confirmation");
+                        al.setContentText(" You have succesfully submitted the results for your LGA. Head to the live results" +
+                                " portal for further confirmation");
                         al.show();
                     } catch (ClassNotFoundException ex) {
                         throw new RuntimeException(ex);

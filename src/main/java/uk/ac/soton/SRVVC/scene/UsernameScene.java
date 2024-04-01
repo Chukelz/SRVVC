@@ -1,6 +1,5 @@
 package uk.ac.soton.SRVVC.scene;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -13,8 +12,6 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.SRVVC.DbConnect;
 import uk.ac.soton.SRVVC.ui.Pane;
 import uk.ac.soton.SRVVC.ui.Window;
-
-import java.util.Objects;
 
 public class UsernameScene extends BaseScene{
 
@@ -74,7 +71,7 @@ public class UsernameScene extends BaseScene{
 
         submit.setOnAction(x -> {
             try {
-                verify(username.getText());
+                verifyUsername(username.getText());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -86,27 +83,32 @@ public class UsernameScene extends BaseScene{
 
     }
 
-    private void verify(String u) throws ClassNotFoundException {
+    public void verifyUsername(String u) throws ClassNotFoundException {
+        //Check if user is in the total list of users in the DB
         if(db.getUsers().contains(u)){
             logger.info("User accepted " + u);
-            gameWindow.setUser(u);
 
-            if(db.getVotespt(u) == null){
+            //Check if the user has uploaded any votes
+            if(db.getTotalVotesFromOfficer(u) == null){
+                //set the user to U
+                gameWindow.setUser(u);
                 gameWindow.showNotification("Username Correct");
-                logger.info("username set to " + gameWindow.getUser());
+                //Open password screen
                 gameWindow.startLoginp();
             }
 
             else{
+                //Throw an alert to the user that the user has casted votes
                 Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("You have already uploaded votes so you no longer have access to this platform, If you have made a mistake contact admin with evidence.");
-                //a.setTitle("Votes for Polling Station:  " + ps);
+                a.setContentText("You have already uploaded votes so you no longer have access to this platform, " +
+                        "If you have made a mistake contact admin with evidence.");
                 a.setHeaderText("Oops... Already uploaded votes");
                 a.show();
             }
 
         }
         else{
+            //Tell the user the username was wrong and restart the enter username page
             logger.info("User rejected " + u);
             gameWindow.showNotification("Invalid Username");
             gameWindow.startLogin();
